@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
+    @Override
+    @Transactional
+    public void edit(User user) {
+        userRepository.save(user);
+    }
 
     @Override
     @Transactional

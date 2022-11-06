@@ -71,7 +71,7 @@ public class Controller {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user) {
-        userService.create(user);
+        userService.edit(user);
 
         return "redirect:/admin";
     }
