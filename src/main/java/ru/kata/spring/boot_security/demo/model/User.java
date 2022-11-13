@@ -28,6 +28,23 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "email")
+    private String email;
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     @ManyToMany
     @JoinTable(name = "users_roles",
                joinColumns = @JoinColumn(name = "user_id"),
@@ -42,12 +59,12 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User() {
+    public String getLastName() {
+        return lastName;
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Long getId() {
@@ -60,6 +77,22 @@ public class User implements UserDetails {
 
     public String getUsername() {
         return username;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -97,5 +130,13 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStringOfRoles() {
+        StringBuilder stringRole = new StringBuilder();
+        for (Role role : roles) {
+            stringRole.append(role.getName().replaceFirst("ROLE_", " "));
+        }
+        return stringRole.toString();
     }
 }

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.kata</groupId>
-	<artifactId>spring-boot_security-demo</artifactId>
+	<artifactId>spring-boot_security-demo-bootstrap</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot_security-demo</name>
+	<name>spring-boot_security-bootstrap</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
@@ -60,8 +60,6 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 			<version>3.0.4.RELEASE</version>
 		</dependency>
-
-
 
 	</dependencies>
 

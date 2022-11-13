@@ -1,17 +1,119 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
-    <title>User Page</title>
+    <title>Users</title>
+    <style>
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      form {
+        text-align: center;
+      }
+    </style>
 </head>
 <body>
-<div>
-    <h1>Username:</h1>
-    <p th:text="${user.getUsername()}"></p>
-    <br/><br/>
-    <a th:href="@{/logout}">Logout</a>
+
+<header class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand"
+                 th:text="${user.email} + ' with roles ' + ${user.getStringOfRoles()}">
+            </div>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<br/>
+<div class="container-fluid">
+
+
+    <div class="row flex">
+
+        <div class="col-md-2 ui-sortable">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+
+                <a class="nav-link" id="v-pills-home-tab" href="/admin" sec:authorize="hasRole('ADMIN')" sec:visible="hasRole('ADMIN')" role="tab"
+                   aria-controls="v-pills-home"
+                   aria-selected="true">Admin</a>
+
+                <a class="nav-link active" id="v-pills-settings-tab" href="/user" role="tab"
+                   aria-controls="v-pills-settings" aria-selected="false">User</a>
+
+            </div>
+        </div>
+
+        <div class="col-md-10 column ui-sortable">
+            <h1>User information-page</h1>
+
+
+            <div class="card">
+
+                <div class="tab-pane active" id="admin">
+                    <h5 class="card-header">About user</h5>
+
+
+                    <div class="card-body">
+                        <div class="table">
+                            <table class="table">
+
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:utext="${user.getId()}"></td>
+                                    <td th:utext="${user.getUsername()}"></td>
+                                    <td th:utext="${user.getLastName()}"></td>
+                                    <td th:utext="${user.getAge()}"></td>
+                                    <td th:utext="${user.getEmail()}"></td>
+
+                                    <td>
+
+                                        <div>
+                                            <th:block th:each="authority : ${user.getAuthorities()}">
+                                                <th:block
+                                                    th:if="${authority.getAuthority().startsWith('ROLE_')}"
+                                                    th:text="${authority.getAuthority().replaceFirst('ROLE_', '')}">
+
+                                                </th:block>
+                                            </th:block>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

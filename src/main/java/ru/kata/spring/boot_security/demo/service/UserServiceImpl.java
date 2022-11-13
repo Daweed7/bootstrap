@@ -3,8 +3,10 @@ package ru.kata.spring.boot_security.demo.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     @Override
     @Transactional
     public void edit(User user) {
@@ -60,10 +68,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
+    public User getAuthenticatedUser() {
+        Authentication authenticated = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByUsername(authenticated.getName());
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        User user = findByEmail(email);
+
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+            throw new UsernameNotFoundException(String.format("User '%s' not found", email));
         }
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
