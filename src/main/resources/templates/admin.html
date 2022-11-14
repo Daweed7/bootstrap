@@ -212,9 +212,9 @@
                                                                                th:name="password"
                                                                                th:value="*{password}">
                                                                         <br/>
-                                                                        <label>Role</label>
-                                                                        <select class="custom-select" multiple id="editRole" name="role"
-                                                                                th:field="*{roles}">
+                                                                        <label for="editRole">Role</label>
+                                                                        <select class="custom-select" multiple required id="editRole"
+                                                                                name="rolesList">
                                                                             <option th:each="role : ${roles}"
                                                                                     th:value="${role.id}"
                                                                                     th:utext="${role.name.replaceFirst('ROLE_', '')}">
