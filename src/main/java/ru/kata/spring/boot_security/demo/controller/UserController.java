@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.controller;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,8 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-@org.springframework.stereotype.Controller
-public class Controller {
+@Controller
+public class UserController {
 
     @Autowired
     UserService userService;
@@ -59,8 +60,16 @@ public class Controller {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam List<Role> rolesList) {
-        user.setRoles(rolesList);
+    public String update(@ModelAttribute("user") User user, @RequestParam(required = false) List<Role> rolesList,
+                         @PathVariable(value = "id", required = false) Long id) {
+
+        List<Role> roles = userService.findById(id).getRoles();
+        if (rolesList == null) {
+            user.setRoles(roles);
+        } else {
+            user.setRoles(rolesList);
+        }
+
         userService.edit(user);
 
         return "redirect:/admin";
