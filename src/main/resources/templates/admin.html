@@ -213,11 +213,13 @@
                                                                                th:value="*{password}">
                                                                         <br/>
                                                                         <label for="editRole">Role</label>
-                                                                        <select class="custom-select" multiple required id="editRole"
+                                                                        <select class="custom-select" multiple id="editRole"
                                                                                 name="rolesList">
-                                                                            <option th:each="role : ${roles}"
-                                                                                    th:value="${role.id}"
-                                                                                    th:utext="${role.name.replaceFirst('ROLE_', '')}">
+                                                                            <option
+                                                                                th:each="role : ${roles}"
+                                                                                th:value="${role.id}"
+                                                                                th:utext="${role.name.replaceFirst('ROLE_', ' ')}"
+                                                                                th:selected="${user.roles.contains(role)}">
                                                                             </option>
                                                                         </select>
 

@@ -60,15 +60,9 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam(required = false) List<Role> rolesList,
-                         @PathVariable(value = "id", required = false) Long id) {
+    public String update(@ModelAttribute("user") User user, @RequestParam(required = false) List<Role> rolesList) {
 
-        List<Role> roles = userService.findById(id).getRoles();
-        if (rolesList == null) {
-            user.setRoles(roles);
-        } else {
-            user.setRoles(rolesList);
-        }
+        user.setRoles(rolesList);
 
         userService.edit(user);
 
